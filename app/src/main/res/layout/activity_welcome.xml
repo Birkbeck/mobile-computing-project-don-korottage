@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="@color/white"
+    tools:context=".WelcomeActivity">
+
+    <!-- App Logo -->
+    <ImageView
+        android:id="@+id/logoImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:src="@drawable/ic_app_logo"
+        android:contentDescription="@string/app_logo"
+        android:layout_marginBottom="24dp" />
+
+    <!-- Main Heading -->
+    <TextView
+        android:id="@+id/textMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/culinary_companion"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="150dp" />
+
+    <!-- Welcome Heading -->
+    <TextView
+        android:id="@+id/textMainTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Welcome"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <!-- Subheading -->
+    <TextView
+        android:id="@+id/textSubtitle"
+        android:layout_width="360dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:gravity="center"
+        android:text="@string/discover_save_and_create_recipes_with_ease_culinary_companion_offers_helpful_tips_and_personalized_recommendations_making_every_meal_enjoyable"
+        android:textSize="16sp" />
+
+    <!-- Custom-styled button -->
+    <Button
+        android:id="@+id/btnSeeRecipes"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/see_recipes"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_rounded_black"/>
+</LinearLayout>

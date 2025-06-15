@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">Culinary Companion</string>
+    <string name="discover_save_and_create_recipes_with_ease_culinary_companion_offers_helpful_tips_and_personalized_recommendations_making_every_meal_enjoyable">Discover, save, and create recipes with ease. Culinary Companion offers helpful tips and personalized recommendations—making every meal enjoyable.</string>
+    <string name="culinary_companion">Culinary Companion</string>
+    <string name="app_logo">App Logo</string>
+    <string name="see_recipes">SEE RECIPES</string>
+    <string name="category">Category</string>
+    <string name="add_recipe">ADD RECIPE</string>
+    <string name="upload_image">UPLOAD IMAGE</string>
+    <string name="ingredients">Ingredients</string>
+    <string name="title">Title</string>
+    <string name="instructions">Instructions</string>
+    <string name="home">Home</string>
+    <string name="add_new">Add New</string>
+    <string name="back">Back</string>
+    <string name="chicken_noodles">Chicken Noodles</string>
+    <string name="edit">EDIT</string>
+    <string name="delete">DELETE</string>
+    <string name="todo">TODO</string>
+    <string name="welcome">Welcome</string>
+    <string name="Welcome">Welcome!</string>
+</resources>
