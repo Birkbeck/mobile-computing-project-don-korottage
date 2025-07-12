@@ -1,7 +1,9 @@
 package com.example.culinarycompanion;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -9,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.List;
@@ -20,28 +24,43 @@ public class RecipeListActivity extends AppCompatActivity {
     AppDatabase db;
     String category;
 
+    private ActivityResultLauncher<Intent> detailActivityLauncher;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
-        // Bind UI
         navAddList = findViewById(R.id.navAdd);
         navHomeList = findViewById(R.id.navHome);
         backButton = findViewById(R.id.backButton);
         TextView categoryTitle = findViewById(R.id.categoryTitle);
-        recipeListContainer = findViewById(R.id.recipeListContainer); // dynamic list holder
+        recipeListContainer = findViewById(R.id.recipeListContainer);
 
         db = AppDatabase.getInstance(this);
         category = getIntent().getStringExtra("category");
 
         if (category != null) {
-            categoryTitle.setText(category);
+            String title = getString(R.string.recipes, category);
+            categoryTitle.setText(title);
         } else {
-            categoryTitle.setText(R.string.recipes);
+            String defaultCategory = getString(R.string.category);
+            String title = getString(R.string.recipes, defaultCategory);
+            categoryTitle.setText(title);
         }
 
-        // Navigation
+        detailActivityLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                result -> {
+                    if (result.getResultCode() == RESULT_OK) {
+                        Intent data = result.getData();
+                        if (data != null && data.getBooleanExtra("recipeDeleted", false)) {
+                            loadRecipes();
+                        }
+                    }
+                }
+        );
+
         Runnable goToHome = () -> {
             Intent intent = new Intent(RecipeListActivity.this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -56,7 +75,6 @@ public class RecipeListActivity extends AppCompatActivity {
         });
         backButton.setOnClickListener(v -> goToHome.run());
 
-        // Load and display recipes
         loadRecipes();
     }
 
@@ -69,8 +87,21 @@ public class RecipeListActivity extends AppCompatActivity {
             recipes = db.recipeDao().getAllRecipes();
         }
 
+        recipeListContainer.removeAllViews();
+
+        if (recipes.isEmpty()) {
+            TextView emptyMessage = new TextView(this);
+            emptyMessage.setTextColor(getResources().getColor(android.R.color.white));
+            emptyMessage.setTextSize(16);
+            String message = "There are no recipes saved under \"" + (category != null ? category : "All") +
+                    "\", please '+ Add New' from below to create a new recipe.";
+            emptyMessage.setText(message);
+            emptyMessage.setPadding(16, 16, 16, 16);
+            recipeListContainer.addView(emptyMessage);
+            return;
+        }
+
         LayoutInflater inflater = LayoutInflater.from(this);
-        recipeListContainer.removeAllViews(); // Clear previous views
 
         for (Recipe recipe : recipes) {
             View card = inflater.inflate(R.layout.single_recipe_card, recipeListContainer, false);
@@ -78,14 +109,27 @@ public class RecipeListActivity extends AppCompatActivity {
             TextView recipeCategory = card.findViewById(R.id.recipeCategory);
             TextView recipeName = card.findViewById(R.id.recipeName);
             Button viewButton = card.findViewById(R.id.viewButton);
+            ImageView recipeImage = card.findViewById(R.id.recipeImage);
 
             recipeCategory.setText(recipe.category);
             recipeName.setText(recipe.title);
 
+            if (recipe.imagePath != null && !recipe.imagePath.isEmpty()) {
+                try {
+                    Uri imageUri = Uri.parse(recipe.imagePath);
+                    recipeImage.setImageURI(imageUri);
+                } catch (Exception e) {
+                    Log.e("RecipeListActivity", "Failed to load recipe image: " + recipe.imagePath, e);
+                    recipeImage.setImageResource(R.drawable.ic_app_lis_image);
+                }
+            } else {
+                recipeImage.setImageResource(R.drawable.ic_app_lis_image);
+            }
+
             viewButton.setOnClickListener(v -> {
                 Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
                 intent.putExtra("recipeId", recipe.id);
-                startActivity(intent);
+                detailActivityLauncher.launch(intent);
             });
 
             recipeListContainer.addView(card);

@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+
 }
 
 android {
@@ -41,8 +42,6 @@ dependencies {
 
 
 
-    val room_version = "2.7.2"
-
     implementation(libs.androidx.room.room.runtime)
 
     // If this project only uses Java source, use the Java annotationProcessor
@@ -66,5 +65,7 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation(libs.androidx.room.paging)
+
+
 
 }
