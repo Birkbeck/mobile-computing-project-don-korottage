@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:fitsSystemWindows="true">
 
     <!-- White border line above bottom nav -->
     <LinearLayout
@@ -10,9 +12,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/bottomNavBar"
-        android:layout_marginBottom="-64dp"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        android:paddingBottom="60dp">
 
         <!-- Top Separator Line -->
         <View
@@ -33,8 +35,7 @@
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:contentDescription="@string/app_logo"
-                android:src="@drawable/ic_app_logo_home"
-                />
+                android:src="@drawable/ic_app_logo_home" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -67,9 +68,7 @@
             android:layout_marginBottom="80dp"
             android:background="@android:color/white" />
 
-
         <GridLayout
-
             android:id="@+id/categoryGrid"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -81,20 +80,21 @@
 
             <!-- Breakfast Button -->
             <LinearLayout
+                android:id="@+id/boxBreakfast"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_breakfast" />
 
                 <TextView
@@ -108,20 +108,21 @@
 
             <!-- Brunch Button -->
             <LinearLayout
+                android:id="@+id/boxBrunch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_brunch" />
 
                 <TextView
@@ -135,20 +136,21 @@
 
             <!-- Lunch Button -->
             <LinearLayout
+                android:id="@+id/boxLunch"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_lunch" />
 
                 <TextView
@@ -162,20 +164,21 @@
 
             <!-- Dinner Button -->
             <LinearLayout
+                android:id="@+id/boxDinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_dinner" />
 
                 <TextView
@@ -189,20 +192,21 @@
 
             <!-- Desserts Button -->
             <LinearLayout
+                android:id="@+id/boxDesserts"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_dessert" />
 
                 <TextView
@@ -216,20 +220,21 @@
 
             <!-- Other Button -->
             <LinearLayout
+                android:id="@+id/boxOther"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_columnWeight="1"
-                android:layout_margin="4dp"
+                android:layout_margin="10dp"
                 android:background="@drawable/category_bg"
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12dp">
+                android:padding="30dp">
 
                 <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
                     android:src="@drawable/ic_app_other" />
 
                 <TextView
@@ -252,7 +257,7 @@
         android:layout_above="@+id/bottomNavBar"
         android:background="@android:color/white" />
 
-    <!-- Bottom Navigation Bar (Fixed) -->
+    <!-- Bottom Navigation Bar -->
     <LinearLayout
         android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
@@ -278,7 +283,7 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline_home_24"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -304,7 +309,7 @@
                 android:layout_height="24dp"
                 android:contentDescription="@string/todo"
                 android:src="@drawable/baseline_add_circle_24"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"

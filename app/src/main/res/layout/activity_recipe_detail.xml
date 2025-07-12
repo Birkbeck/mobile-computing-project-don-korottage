@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".RecipeDetailActivity">
+    android:fitsSystemWindows="true">
+
 
     <!-- Main content in ScrollView -->
     <ScrollView
@@ -34,12 +34,12 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:src="@drawable/baseline_arrow_back_ios_new_24"
-                    android:contentDescription="Back"
-                    android:tint="@android:color/white"
-                    android:layout_marginEnd="12dp" />
+                    android:contentDescription="@string/recipeBack"
+                    android:layout_marginEnd="12dp"
+                    app:tint="@android:color/white" />
 
                 <TextView
-                    android:id="@+id/recipeTitle"
+                    android:id="@+id/recipeTitleNav"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Chicken Noodles"
@@ -73,7 +73,7 @@
                 <View
                     android:layout_width="1dp"
                     android:layout_height="match_parent"
-                    android:background="#00000" />
+                    android:background="#000000" />
 
                 <Button
                     android:id="@+id/btnDelete"
@@ -93,7 +93,7 @@
 
             <!-- Title -->
             <TextView
-                android:id="@+id/recipeTitle"
+                android:id="@+id/recipeTitleView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chicken Noodles"

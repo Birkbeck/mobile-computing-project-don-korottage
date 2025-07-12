@@ -18,5 +18,20 @@
     <string name="delete">DELETE</string>
     <string name="todo">TODO</string>
     <string name="welcome">Welcome</string>
-    <string name="Welcome">Welcome!</string>
+    <string name="save_changes">SAVE CHANGES</string>
+    <string name="recipe_title">Recipe Title</string>
+    <string name="recipeBack">Back</string>
+    <string name="edit_recipe">Edit Recipe</string>
+    <string name="create_new_recipe">Create New Recipe</string>
+    <string name="home_welcome">Welcome\t\t\t</string>
+    <string-array name="recipe_categories">
+        <item>Select Category</item>
+        <item>Breakfast</item>
+        <item>Brunch</item>
+        <item>Lunch</item>
+        <item>Dinner</item>
+        <item>Desserts</item>
+        <item>Other</item>
+    </string-array>
+
 </resources>

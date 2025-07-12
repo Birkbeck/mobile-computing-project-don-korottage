@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black">
+    android:background="@android:color/black"
+    android:fitsSystemWindows="true">
+
 
     <!-- Top Bar: Back Arrow + Title -->
     <LinearLayout
@@ -23,11 +26,11 @@
             android:layout_height="24dp"
             android:src="@drawable/baseline_arrow_back_ios_new_24"
             android:contentDescription="Back"
-            android:tint="@android:color/white"
-            android:layout_marginEnd="12dp" />
+            android:layout_marginEnd="12dp"
+            app:tint="@android:color/white" />
 
         <TextView
-            android:id="@+id/recipeTitle"
+            android:id="@+id/categoryTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Recipes"
@@ -45,13 +48,13 @@
         android:layout_below="@id/topBar"
         android:layout_marginBottom="16dp" />
 
-    <!-- ScrollView with your existing recipe list -->
+    <!-- ScrollView with recipe list -->
     <ScrollView
         android:id="@+id/scrollContent"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="match_parent"
         android:layout_below="@id/separator"
-        android:layout_above="@id/bottomNavBar"
+        android:layout_above="@id/borderLine"
         android:paddingTop="8dp"
         android:paddingBottom="8dp">
 
@@ -60,331 +63,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/category_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="4dp"
-                android:backgroundTintMode="src_over">
-
-                <!-- Circular Recipe Image -->
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_lis_image"
-                    android:contentDescription="Recipe Image"
-                    android:background="@drawable/circle_background"
-                    android:clipToOutline="true" />
-
-                <!-- Category & Recipe Name -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:id="@+id/recipeCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Breakfast"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- View Button -->
-                <Button
-                    android:id="@+id/viewButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/category_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="4dp"
-                android:backgroundTintMode="src_over">
-
-                <!-- Circular Recipe Image -->
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_lis_image"
-                    android:contentDescription="Recipe Image"
-                    android:background="@drawable/circle_background"
-                    android:clipToOutline="true" />
-
-                <!-- Category & Recipe Name -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:id="@+id/recipeCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Breakfast"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- View Button -->
-                <Button
-                    android:id="@+id/viewButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/category_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="4dp"
-                android:backgroundTintMode="src_over">
-
-                <!-- Circular Recipe Image -->
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_lis_image"
-                    android:contentDescription="Recipe Image"
-                    android:background="@drawable/circle_background"
-                    android:clipToOutline="true" />
-
-                <!-- Category & Recipe Name -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:id="@+id/recipeCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Breakfast"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- View Button -->
-                <Button
-                    android:id="@+id/viewButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/category_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="4dp"
-                android:backgroundTintMode="src_over">
-
-                <!-- Circular Recipe Image -->
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_lis_image"
-                    android:contentDescription="Recipe Image"
-                    android:background="@drawable/circle_background"
-                    android:clipToOutline="true" />
-
-                <!-- Category & Recipe Name -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:id="@+id/recipeCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Breakfast"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- View Button -->
-                <Button
-                    android:id="@+id/viewButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="@android:color/black" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@drawable/category_bg"
-                android:padding="12dp"
-                android:layout_marginBottom="8dp"
-                android:elevation="2dp"
-                android:gravity="center_vertical"
-                android:clipToPadding="false"
-                android:clipChildren="false"
-                android:backgroundTint="@android:color/white"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginTop="4dp"
-                android:backgroundTintMode="src_over">
-
-                <!-- Circular Recipe Image -->
-                <ImageView
-                    android:id="@+id/recipeImage"
-                    android:layout_width="56dp"
-                    android:layout_height="56dp"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/ic_app_lis_image"
-                    android:contentDescription="Recipe Image"
-                    android:background="@drawable/circle_background"
-                    android:clipToOutline="true" />
-
-                <!-- Category & Recipe Name -->
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_weight="1"
-                    android:layout_marginStart="12dp">
-
-                    <TextView
-                        android:id="@+id/recipeCategory"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Breakfast"
-                        android:textColor="#000000"
-                        android:textSize="14sp"
-                        android:textStyle="italic" />
-
-                    <TextView
-                        android:id="@+id/recipeName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Recipe Name"
-                        android:textColor="#000000"
-                        android:textSize="16sp"
-                        android:textStyle="bold" />
-                </LinearLayout>
-
-                <!-- View Button -->
-                <Button
-                    android:id="@+id/viewButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="View"
-                    android:textColor="#FFFFFF"
-                    android:backgroundTint="@android:color/black" />
-            </LinearLayout>
-
+            <!-- Example Recipe Card -->
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -455,7 +134,15 @@
         </LinearLayout>
     </ScrollView>
 
-    <!-- Fixed Bottom Navigation Bar -->
+    <!-- Border above the Bottom Navigation Bar -->
+    <View
+        android:id="@+id/borderLine"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_above="@+id/bottomNavBar"
+        android:background="@android:color/white" />
+
+    <!-- Bottom Navigation Bar -->
     <LinearLayout
         android:id="@+id/bottomNavBar"
         android:layout_width="match_parent"
@@ -466,7 +153,7 @@
         android:padding="8dp"
         android:weightSum="2">
 
-        <!-- Home Nav Button -->
+        <!-- Home -->
         <LinearLayout
             android:id="@+id/navHome"
             android:layout_width="0dp"
@@ -481,17 +168,17 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:src="@drawable/baseline_home_24"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Home"
+                android:text="@string/home"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
 
-        <!-- Add New Nav Button -->
+        <!-- Add New -->
         <LinearLayout
             android:id="@+id/navAdd"
             android:layout_width="0dp"
@@ -505,13 +192,14 @@
             <ImageView
                 android:layout_width="24dp"
                 android:layout_height="24dp"
+                android:contentDescription="@string/todo"
                 android:src="@drawable/baseline_add_circle_24"
-                android:tint="@android:color/white" />
+                app:tint="@android:color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add New"
+                android:text="@string/add_new"
                 android:textColor="@android:color/white"
                 android:textSize="12sp" />
         </LinearLayout>
