@@ -9,6 +9,14 @@ roomCommonJvm = "2.7.2"
 roomRuntimeAndroid = "2.7.2"
 
 [libraries]
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomCommonJvm" }
+androidx-room-guava = { module = "androidx.room:room-guava", version.ref = "roomCommonJvm" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomCommonJvm" }
+androidx-room-paging = { module = "androidx.room:room-paging", version.ref = "roomCommonJvm" }
+androidx-room-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomCommonJvm" }
+androidx-room-rxjava2 = { module = "androidx.room:room-rxjava2", version.ref = "roomCommonJvm" }
+androidx-room-rxjava3 = { module = "androidx.room:room-rxjava3", version.ref = "roomCommonJvm" }
+androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomCommonJvm" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 ext-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }

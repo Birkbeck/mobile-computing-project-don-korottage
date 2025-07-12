@@ -2,6 +2,8 @@ package com.example.culinarycompanion;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -9,36 +11,37 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.List;
+
 public class RecipeListActivity extends AppCompatActivity {
 
-    LinearLayout navAddList;
-    LinearLayout navHomeList;
+    LinearLayout navAddList, navHomeList, recipeListContainer;
     ImageView backButton;
+    AppDatabase db;
+    String category;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_recipe_list);
 
-        // Connect UI elements
+        // Bind UI
         navAddList = findViewById(R.id.navAdd);
         navHomeList = findViewById(R.id.navHome);
         backButton = findViewById(R.id.backButton);
         TextView categoryTitle = findViewById(R.id.categoryTitle);
-        // View button for recipe detail
-        Button viewButton = findViewById(R.id.viewButton);
+        recipeListContainer = findViewById(R.id.recipeListContainer); // dynamic list holder
 
-        // Get the passed category name
-        String category = getIntent().getStringExtra("category");
+        db = AppDatabase.getInstance(this);
+        category = getIntent().getStringExtra("category");
 
-        // Display the category title (optional)
         if (category != null) {
             categoryTitle.setText(category);
         } else {
-            categoryTitle.setText("Recipes");
+            categoryTitle.setText(R.string.recipes);
         }
 
-        // Reusable navigation method to go home
+        // Navigation
         Runnable goToHome = () -> {
             Intent intent = new Intent(RecipeListActivity.this, HomeActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -46,24 +49,46 @@ public class RecipeListActivity extends AppCompatActivity {
             finish();
         };
 
-        // Bottom nav buttons listeners
         navHomeList.setOnClickListener(v -> goToHome.run());
-
         navAddList.setOnClickListener(v -> {
             Intent intent = new Intent(RecipeListActivity.this, CreateRecipeActivity.class);
             startActivity(intent);
         });
-
-        // Back button listener goes home
         backButton.setOnClickListener(v -> goToHome.run());
 
-        // View button opens recipe detail activity
-        viewButton.setOnClickListener(v -> {
-            Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
+        // Load and display recipes
+        loadRecipes();
+    }
 
-            startActivity(intent);
-        });
+    private void loadRecipes() {
+        List<Recipe> recipes;
 
-        // TODO: Load and display recipes based on the category
+        if (category != null) {
+            recipes = db.recipeDao().getRecipesByCategory(category);
+        } else {
+            recipes = db.recipeDao().getAllRecipes();
+        }
+
+        LayoutInflater inflater = LayoutInflater.from(this);
+        recipeListContainer.removeAllViews(); // Clear previous views
+
+        for (Recipe recipe : recipes) {
+            View card = inflater.inflate(R.layout.single_recipe_card, recipeListContainer, false);
+
+            TextView recipeCategory = card.findViewById(R.id.recipeCategory);
+            TextView recipeName = card.findViewById(R.id.recipeName);
+            Button viewButton = card.findViewById(R.id.viewButton);
+
+            recipeCategory.setText(recipe.category);
+            recipeName.setText(recipe.title);
+
+            viewButton.setOnClickListener(v -> {
+                Intent intent = new Intent(RecipeListActivity.this, RecipeDetailActivity.class);
+                intent.putExtra("recipeId", recipe.id);
+                startActivity(intent);
+            });
+
+            recipeListContainer.addView(card);
+        }
     }
 }

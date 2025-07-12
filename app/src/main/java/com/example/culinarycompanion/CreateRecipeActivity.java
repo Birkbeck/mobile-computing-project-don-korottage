@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,9 @@ public class CreateRecipeActivity extends AppCompatActivity {
 
     private EditText etTitle, etIngredients, etInstructions;
     private Spinner spinnerCategory;
+    private TextView selectedImageName;
+
+    private AppDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,8 +31,11 @@ public class CreateRecipeActivity extends AppCompatActivity {
         etIngredients = findViewById(R.id.etIngredients);
         etInstructions = findViewById(R.id.etInstructions);
         spinnerCategory = findViewById(R.id.spinnerCategory);
+        selectedImageName = findViewById(R.id.selectedImageName);
         Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
 
+        // Initialize Room database
+        db = AppDatabase.getInstance(this);
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
@@ -41,43 +48,47 @@ public class CreateRecipeActivity extends AppCompatActivity {
         btnAddRecipe.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String title = etTitle.getText().toString().trim();
-                String ingredients = etIngredients.getText().toString().trim();
-                String instructions = etInstructions.getText().toString().trim();
-                String category = spinnerCategory.getSelectedItem().toString();
-
-                if (title.isEmpty() || ingredients.isEmpty() || instructions.isEmpty() || category.equals("Select Category")) {
-                    Toast.makeText(CreateRecipeActivity.this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(CreateRecipeActivity.this, "Recipe added: " + title, Toast.LENGTH_LONG).show();
-
-                    // TODO: Save to database or other storage
-                }
+                saveRecipe();
             }
         });
 
-        // Bottom nav: Home
+        // Home navigation
         LinearLayout navHome = findViewById(R.id.navHome);
-        navHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToHomeScreen();
-            }
-        });
+        navHome.setOnClickListener(v -> goToHomeScreen());
 
         // Back button
         ImageView backButton = findViewById(R.id.backButton);
-        backButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToHomeScreen();
-            }
-        });
+        backButton.setOnClickListener(v -> goToHomeScreen());
     }
 
-    // Navigate back to Home screen
+    private void saveRecipe() {
+        String title = etTitle.getText().toString().trim();
+        String ingredients = etIngredients.getText().toString().trim();
+        String instructions = etInstructions.getText().toString().trim();
+        String category = spinnerCategory.getSelectedItem().toString();
+
+        if (title.isEmpty() || ingredients.isEmpty() || instructions.isEmpty() || category.equals("Select Category")) {
+            Toast.makeText(this, "Please fill in all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Recipe recipe = new Recipe();
+        recipe.title = title;
+        recipe.ingredients = ingredients;
+        recipe.instructions = instructions;
+        recipe.category = category;
+
+        // Optional: set image path if needed in the future
+        recipe.imagePath = selectedImageName.getText().toString();
+
+        db.recipeDao().insert(recipe);
+
+        Toast.makeText(this, "Recipe saved!", Toast.LENGTH_SHORT).show();
+        goToHomeScreen();
+    }
+
     private void goToHomeScreen() {
-        Intent intent = new Intent(CreateRecipeActivity.this, HomeActivity.class);
+        Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
         finish();
