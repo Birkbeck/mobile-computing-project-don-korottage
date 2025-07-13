@@ -6,7 +6,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
-import android.view.View;
+
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -20,22 +21,24 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class CreateRecipeActivity extends AppCompatActivity {
 
     private EditText etTitle, etIngredients, etInstructions;
     private Spinner spinnerCategory;
     private TextView selectedImageName;
-    private Button btnUploadImage;
 
     private AppDatabase db;
     private Uri selectedImageUri = null;
 
+    // Launcher to pick image from device storage
     private final ActivityResultLauncher<Intent> pickImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     selectedImageUri = result.getData().getData();
                     if (selectedImageUri != null) {
-                        // ✅ Take persistable URI permission
+                        // Take persistable URI permission so Room can access it later
                         getContentResolver().takePersistableUriPermission(
                                 selectedImageUri,
                                 Intent.FLAG_GRANT_READ_URI_PERMISSION
@@ -52,16 +55,18 @@ public class CreateRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_recipe);
 
+        // Initialize UI elements
         etTitle = findViewById(R.id.etTitle);
         etIngredients = findViewById(R.id.etIngredients);
         etInstructions = findViewById(R.id.etInstructions);
         spinnerCategory = findViewById(R.id.spinnerCategory);
         selectedImageName = findViewById(R.id.selectedImageName);
-        btnUploadImage = findViewById(R.id.btnUploadImage);
+        Button btnUploadImage = findViewById(R.id.btnUploadImage);
         Button btnAddRecipe = findViewById(R.id.btnAddRecipe);
 
-        db = AppDatabase.getInstance(this);
+        db = AppDatabase.getInstance(this); // Get Room DB instance
 
+        // Set up spinner with category values
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.recipe_categories,
@@ -73,15 +78,15 @@ public class CreateRecipeActivity extends AppCompatActivity {
         btnUploadImage.setOnClickListener(v -> openImagePicker());
         btnAddRecipe.setOnClickListener(v -> saveRecipe());
 
-        // Home navigation
+        // Navigation: back and home
         LinearLayout navHome = findViewById(R.id.navHome);
         navHome.setOnClickListener(v -> goToHomeScreen());
 
-        // Back button
         ImageView backButton = findViewById(R.id.backButton);
         backButton.setOnClickListener(v -> goToHomeScreen());
     }
 
+    // Open Android file picker to select an image
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
@@ -89,9 +94,10 @@ public class CreateRecipeActivity extends AppCompatActivity {
         pickImageLauncher.launch(intent);
     }
 
+    // Get display name (e.g. filename) of a selected image URI
     private String getFileNameFromUri(Uri uri) {
         String result = null;
-        if (uri.getScheme().equals("content")) {
+        if (Objects.equals(uri.getScheme(), "content")) {
             ContentResolver resolver = getContentResolver();
             try (Cursor cursor = resolver.query(uri, null, null, null, null)) {
                 if (cursor != null && cursor.moveToFirst()) {
@@ -101,7 +107,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("CreateRecipeActivity", "Error getting file name from URI", e);
             }
         }
         if (result == null) {
@@ -110,6 +116,7 @@ public class CreateRecipeActivity extends AppCompatActivity {
         return result;
     }
 
+    // Save recipe into Room database
     private void saveRecipe() {
         String title = etTitle.getText().toString().trim();
         String ingredients = etIngredients.getText().toString().trim();
@@ -133,11 +140,12 @@ public class CreateRecipeActivity extends AppCompatActivity {
             recipe.imagePath = "";
         }
 
-        db.recipeDao().insert(recipe);
+        db.recipeDao().insert(recipe); // Save to DB
         Toast.makeText(this, "Recipe saved!", Toast.LENGTH_SHORT).show();
         goToHomeScreen();
     }
 
+    // Go back to home screen
     private void goToHomeScreen() {
         Intent intent = new Intent(this, HomeActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);

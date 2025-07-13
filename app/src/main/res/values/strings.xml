@@ -25,6 +25,11 @@
     <string name="create_new_recipe">Create New Recipe</string>
     <string name="home_welcome">Welcome\t\t\t</string>
     <string name="recipes">%1$s Recipes</string>
+    <string name="home_icon">home_icon</string>
+    <string name="add_new_icon">add_new_icon</string>
+    <string name="upload_image_title">Upload Image</string>
+    <string name="no_image_selected_placeholder">No image selected</string>
+    <string name="upload_btn">UPLOAD</string>
 
     <string-array name="recipe_categories">
         <item>Select Category</item>

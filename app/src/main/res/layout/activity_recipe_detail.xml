@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -6,12 +5,90 @@
     android:background="@android:color/black"
     android:fitsSystemWindows="true">
 
+    <!-- Fixed Top Bar + Buttons Container -->
+    <LinearLayout
+        android:id="@+id/fixedTopContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@android:color/black"
+        android:paddingLeft="16dp"
+        android:paddingTop="16dp"
+        android:paddingRight="16dp"
+        android:paddingBottom="5dp"
+        android:elevation="4dp">
 
-    <!-- Main content in ScrollView -->
+
+    <!-- Top Bar: Back Arrow + Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp">
+
+            <ImageView
+                android:id="@+id/backButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/baseline_arrow_back_ios_new_24"
+                android:contentDescription="@string/recipeBack"
+                android:layout_marginEnd="12dp"
+                app:tint="@android:color/white" />
+
+            <TextView
+                android:id="@+id/recipeTitleNav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Chicken Noodles"
+                android:textColor="@android:color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <!-- Separator Line -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#FFFFFF" />
+
+        <!-- Top Buttons: Edit and Delete -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="15dp">
+
+            <Button
+                android:id="@+id/btnEdit"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="EDIT" />
+
+            <View
+                android:layout_width="5dp"
+                android:layout_height="match_parent"
+                android:background="#000000" />
+
+            <Button
+                android:id="@+id/btnDelete"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="DELETE" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!-- Scrollable Content below fixed top -->
     <ScrollView
         android:id="@+id/scrollContent"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_below="@id/fixedTopContainer"
         android:layout_above="@+id/bottomNavBar"
         android:padding="16dp">
 
@@ -19,69 +96,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <!-- Top Bar: Back Arrow + Title -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
-
-                <ImageView
-                    android:id="@+id/backButton"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:src="@drawable/baseline_arrow_back_ios_new_24"
-                    android:contentDescription="@string/recipeBack"
-                    android:layout_marginEnd="12dp"
-                    app:tint="@android:color/white" />
-
-                <TextView
-                    android:id="@+id/recipeTitleNav"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Chicken Noodles"
-                    android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <!-- Separator Line -->
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:background="#FFFFFF"
-                android:layout_marginBottom="16dp" />
-
-
-            <!-- Top Buttons -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginBottom="16dp">
-
-                <Button
-                    android:id="@+id/btnEdit"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="EDIT" />
-
-                <View
-                    android:layout_width="1dp"
-                    android:layout_height="match_parent"
-                    android:background="#000000" />
-
-                <Button
-                    android:id="@+id/btnDelete"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="DELETE" />
-            </LinearLayout>
 
             <!-- Recipe Image -->
             <ImageView
@@ -91,17 +105,6 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/ic_app_lis_image" />
 
-            <!-- Title -->
-            <TextView
-                android:id="@+id/recipeTitleView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Chicken Noodles"
-                android:textColor="@android:color/white"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="8dp" />
 
             <!-- Instructions -->
             <TextView
@@ -109,8 +112,8 @@
                 android:layout_height="wrap_content"
                 android:text="Instructions"
                 android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textSize="16sp"
                 android:layout_marginTop="12dp" />
 
             <TextView
@@ -128,8 +131,8 @@
                 android:layout_height="wrap_content"
                 android:text="Ingredients"
                 android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textSize="16sp"
                 android:layout_marginTop="16dp" />
 
             <TextView
@@ -147,8 +150,8 @@
                 android:layout_height="wrap_content"
                 android:text="Category"
                 android:textColor="@android:color/white"
+                android:textSize="24sp"
                 android:textStyle="bold"
-                android:textSize="16sp"
                 android:layout_marginTop="16dp" />
 
             <TextView
@@ -233,4 +236,5 @@
                 android:textSize="12sp" />
         </LinearLayout>
     </LinearLayout>
+
 </RelativeLayout>

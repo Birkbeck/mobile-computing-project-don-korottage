@@ -36,6 +36,7 @@ dependencies {
     implementation(libs.material)
     implementation(libs.room.common.jvm)
     implementation(libs.room.runtime.android)
+    implementation(libs.androidx.core)
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
@@ -65,6 +66,10 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation(libs.androidx.room.paging)
+
+    testImplementation(libs.junit)
+    testImplementation(libs.androidx.room.testing.v261)
+    testImplementation(libs.androidx.core.v150)
 
 
 

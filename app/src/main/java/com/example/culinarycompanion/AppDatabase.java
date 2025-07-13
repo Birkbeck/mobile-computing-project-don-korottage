@@ -18,7 +18,7 @@ public abstract class AppDatabase extends RoomDatabase {
                     context.getApplicationContext(),
                     AppDatabase.class,
                     "culinary_companion_db"
-            ).fallbackToDestructiveMigration().allowMainThreadQueries().build();
+            ).allowMainThreadQueries().build();
         }
         return instance;
     }

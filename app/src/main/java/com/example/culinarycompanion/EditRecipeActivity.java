@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.OpenableColumns;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,22 +25,18 @@ public class EditRecipeActivity extends AppCompatActivity {
     private EditText inputTitle, inputIngredients, inputInstructions;
     private Spinner categorySpinner;
     private TextView selectedImageName;
-    private Button btnUploadImage, btnSaveChanges;
-    private ImageView backButton;
-    private LinearLayout navHome, navAdd;
 
     private AppDatabase db;
     private Recipe currentRecipe;
     private Uri selectedImageUri = null;
 
+    // Image picker launcher to choose new image from device
     private final ActivityResultLauncher<Intent> pickImageLauncher =
             registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
                 if (result.getResultCode() == RESULT_OK && result.getData() != null) {
                     Uri uri = result.getData().getData();
                     if (uri != null) {
-                        // Persist URI permission to avoid SecurityException later
-                        final int takeFlags = result.getData().getFlags() &
-                                (Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+                        // Persist permission so we can reuse this URI later
                         getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
                         selectedImageUri = uri;
@@ -54,19 +51,19 @@ public class EditRecipeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_recipe);
 
-        // Bind views
+        // Initialize views
         inputTitle = findViewById(R.id.inputTitle);
         inputIngredients = findViewById(R.id.inputIngredients);
         inputInstructions = findViewById(R.id.inputInstructions);
         categorySpinner = findViewById(R.id.inputCategory);
         selectedImageName = findViewById(R.id.selectedImageName);
-        btnUploadImage = findViewById(R.id.btnUploadImage);
-        btnSaveChanges = findViewById(R.id.btnSaveChanges);
-        backButton = findViewById(R.id.backButton);
-        navHome = findViewById(R.id.navHome);
-        navAdd = findViewById(R.id.navAdd);
+        Button btnUploadImage = findViewById(R.id.btnUploadImage);
+        Button btnSaveChanges = findViewById(R.id.btnSaveChanges);
+        ImageView backButton = findViewById(R.id.backButton);
+        LinearLayout navHome = findViewById(R.id.navHome);
+        LinearLayout navAdd = findViewById(R.id.navAdd);
 
-        // Spinner setup
+        // Set up category dropdown
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 this,
                 R.array.recipe_categories,
@@ -77,6 +74,7 @@ public class EditRecipeActivity extends AppCompatActivity {
 
         db = AppDatabase.getInstance(getApplicationContext());
 
+        // Get recipe ID passed from intent
         int recipeId = getIntent().getIntExtra("recipeId", -1);
         if (recipeId == -1) {
             Toast.makeText(this, "Invalid recipe ID", Toast.LENGTH_SHORT).show();
@@ -84,6 +82,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             return;
         }
 
+        // Fetch recipe from DB
         currentRecipe = db.recipeDao().getRecipeById(recipeId);
         if (currentRecipe == null) {
             Toast.makeText(this, "Recipe not found", Toast.LENGTH_SHORT).show();
@@ -91,7 +90,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             return;
         }
 
-        // Populate fields
+        // Populate fields with current recipe data
         inputTitle.setText(currentRecipe.title);
         inputIngredients.setText(currentRecipe.ingredients);
         inputInstructions.setText(currentRecipe.instructions);
@@ -101,16 +100,16 @@ public class EditRecipeActivity extends AppCompatActivity {
             categorySpinner.setSelection(spinnerPosition);
         }
 
-        // Display existing image name if any
+        // Show selected image file name, if already set
         if (currentRecipe.imagePath != null && !currentRecipe.imagePath.isEmpty()) {
             selectedImageUri = Uri.parse(currentRecipe.imagePath);
             selectedImageName.setText(getFileNameFromUri(selectedImageUri));
         }
 
-        // Upload new image
+        // Image upload button
         btnUploadImage.setOnClickListener(v -> openImagePicker());
 
-        // Save changes
+        // Save button updates DB with new values
         btnSaveChanges.setOnClickListener(v -> {
             String newTitle = inputTitle.getText().toString().trim();
             String newIngredients = inputIngredients.getText().toString().trim();
@@ -123,6 +122,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                 return;
             }
 
+            // Update recipe object
             currentRecipe.title = newTitle;
             currentRecipe.ingredients = newIngredients;
             currentRecipe.instructions = newInstructions;
@@ -135,6 +135,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             db.recipeDao().update(currentRecipe);
             Toast.makeText(this, "Recipe updated", Toast.LENGTH_SHORT).show();
 
+            // Go back to detail screen with updated data
             Intent intent = new Intent(EditRecipeActivity.this, RecipeDetailActivity.class);
             intent.putExtra("recipeId", currentRecipe.id);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -142,7 +143,7 @@ public class EditRecipeActivity extends AppCompatActivity {
             finish();
         });
 
-        // Navigation
+        // Navigation controls
         backButton.setOnClickListener(v -> finish());
         navHome.setOnClickListener(v -> {
             Intent intent = new Intent(EditRecipeActivity.this, HomeActivity.class);
@@ -156,15 +157,16 @@ public class EditRecipeActivity extends AppCompatActivity {
         });
     }
 
+    // Launch Android image picker
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("image/*");
-        // Important: add these flags to get persistable permission
         intent.addFlags(Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
         pickImageLauncher.launch(intent);
     }
 
+    // Extract image filename from URI
     private String getFileNameFromUri(Uri uri) {
         String result = null;
         if ("content".equals(uri.getScheme())) {
@@ -177,7 +179,7 @@ public class EditRecipeActivity extends AppCompatActivity {
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                Log.e("EditRecipeActivity", "Error retrieving file name from URI", e);
             }
         }
         if (result == null) {

@@ -2,7 +2,6 @@ package com.example.culinarycompanion;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,20 +31,14 @@ public class HomeActivity extends AppCompatActivity {
         boxOther = findViewById(R.id.boxOther);
 
         // Set click listener for Add New button
-        navAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, CreateRecipeActivity.class);
-                startActivity(intent);
-            }
+        navAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, CreateRecipeActivity.class);
+            startActivity(intent);
         });
 
         // Home button click
-        navHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Optionally refresh or keep empty
-            }
+        navHome.setOnClickListener(v -> {
+            // Optionally refresh or keep empty
         });
 
         // Set click listeners for each category
@@ -58,13 +51,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void setupCategoryClick(LinearLayout categoryBox, final String categoryName) {
-        categoryBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(HomeActivity.this, RecipeListActivity.class);
-                intent.putExtra("category", categoryName);
-                startActivity(intent);
-            }
+        categoryBox.setOnClickListener(v -> {
+            Intent intent = new Intent(HomeActivity.this, RecipeListActivity.class);
+            intent.putExtra("category", categoryName);
+            startActivity(intent);
         });
     }
 }
